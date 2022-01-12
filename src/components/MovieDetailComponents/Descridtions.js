@@ -1,7 +1,10 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity,
+    Linking
+} from 'react-native'
 import Ionicons from "react-native-vector-icons/Ionicons"
 import { mainFontColor, secondFontColor, thirdFontColor } from '../../utilities/GlobalStyles'
+import ExtraInfoBlock from './ExtraInfoBlock'
 
 function timeConvert(n) {
     var num = n;
@@ -13,6 +16,8 @@ function timeConvert(n) {
 }
 
 export default function Descridtions(props) {
+    const crew = props.CastAndCrew.crew
+
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -47,7 +52,7 @@ export default function Descridtions(props) {
                     >
                         <Ionicons
                             style={styles.searchIconRight}
-                            name="chatbubbles-outline"
+                            name="paper-plane-outline"
                             size={23}
                             color={mainFontColor}
                         />
@@ -56,10 +61,50 @@ export default function Descridtions(props) {
             </View>
 
             <Text style={styles.title}>{props.Movie.title}</Text>
+            <Text style={styles.homepage}
+                onPress={() => Linking.openURL(props.Movie.homepage)}
+            >
+                Visit homepage
+            </Text>
             <Text style={styles.des}>{props.Movie.overview}</Text>
 
             <View style={styles.extra_infos}>
-                
+                <ExtraInfoBlock
+                    kei="Director"
+                    link={false}
+                    value={
+                        crew.map((charcter) => {
+                            if (charcter.job === "Director") {
+                                return (charcter.name);
+                            }
+                        })
+                    }
+                />
+                <ExtraInfoBlock
+                    kei="Release Date"
+                    link={false}
+                    value={props.Movie.release_date}
+                />
+                <ExtraInfoBlock
+                    kei="Status"
+                    link={false}
+                    value={props.Movie.status}
+                />
+                <ExtraInfoBlock
+                    kei="Tagline"
+                    link={false}
+                    value={props.Movie.tagline}
+                />
+                <ExtraInfoBlock
+                    kei="Buget"
+                    link={false}
+                    value={`$${props.Movie.budget}`}
+                />
+                <ExtraInfoBlock
+                    kei="Revenue"
+                    link={false}
+                    value={`$${props.Movie.revenue}`}
+                />
             </View>
         </View>
     )
@@ -77,8 +122,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: 'center',
         backgroundColor: "black",
-        padding: 10,
-        paddingHorizontal: 15,
+        padding: 9,
+        paddingHorizontal: 14,
         borderRadius: 4
     },
     vote_average: {
@@ -94,6 +139,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginTop: 20
     },
+    homepage: {
+        color: mainFontColor,
+        borderBottomColor: mainFontColor,
+        borderBottomWidth: 1,
+        width: 85,
+        fontSize: 12,
+        marginBottom: 5
+    },
     des: {
         color: mainFontColor,
         fontSize: 15,
@@ -108,7 +161,7 @@ const styles = StyleSheet.create({
     searchIconRight: {
         marginLeft: 15
     },
-    extra_infos:{
-        
+    extra_infos: {
+        marginTop: 10
     }
 });

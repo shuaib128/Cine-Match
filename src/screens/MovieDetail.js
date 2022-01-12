@@ -7,9 +7,9 @@ import { ApiKey } from '../utilities/ApiKey'
 import axios from 'axios'
 import Header from '../components/MovieDetailComponents/Header'
 import Descridtions from '../components/MovieDetailComponents/Descridtions'
-import Actors from '../components/MovieDetailComponents/Actors'
+import Cast from '../components/MovieDetailComponents/Cast'
+import Reviews from '../components/MovieDetailComponents/Reviews'
 import Footer from '../utilities/Footer'
-import { mainFontColor, secondFontColor } from '../utilities/GlobalStyles'
 
 export default function MovieDetail(props) {
     const { movie_id } = props.route.params
@@ -21,19 +21,40 @@ export default function MovieDetail(props) {
             })
     })
 
+    const [CastAndCrew, setCastAndCrew] = useState(() => {
+        axios.get(`https://api.themoviedb.org/3/movie/${movie_id}/credits?api_key=${ApiKey}&language=en-US`)
+            .then((res) => {
+                setCastAndCrew(res.data);
+            })
+    })
+
+    const [Reviewes, setReviews] = useState(() => {
+        axios.get(`https://api.themoviedb.org/3/movie/${movie_id}/reviews?api_key=${ApiKey}&language=en-US`)
+            .then((res) => {
+                setReviews(res.data);
+            })
+    })
+
     return (
         <View style={styles.container}>
-            {Movie ?
+            {Movie && CastAndCrew ?
                 <ScrollView>
                     <Header
                         Movie={Movie}
                     />
                     <View style={styles.movie_bottom}>
                         <Descridtions
+                            CastAndCrew={CastAndCrew}
                             Movie={Movie}
                         />
-                        <Actors
+                        <Cast
+                            CastAndCrew={CastAndCrew}
                             Movie={Movie}
+                            navigation={props.navigation}
+                        />
+                        <Reviews
+                            Reviewes={Reviewes}
+                            navigation={props.navigation}
                         />
                     </View>
                 </ScrollView> :
@@ -52,10 +73,11 @@ const styles = StyleSheet.create({
         position: 'relative',
         backgroundColor: '#1f2123',
         flex: 1,
-        color: "#fff",
+        color: "#fff"
     },
-    movie_bottom:{
+    movie_bottom: {
         paddingHorizontal: 18,
-        paddingVertical: 15
+        paddingVertical: 15,
+        paddingBottom: 40
     }
 });

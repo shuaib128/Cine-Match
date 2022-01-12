@@ -31,8 +31,9 @@ export default function Header(props) {
                 {props.Movie.genres.map((item) => (
                     <TouchableOpacity
                         activeOpacity={.7}
+                        key={item.id}
                     >
-                        <Text key={item.id} style={styles.cat}>{item.name}</Text>
+                        <Text style={styles.cat}>{item.name}</Text>
                     </TouchableOpacity>
                 ))}
             </View>
