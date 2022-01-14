@@ -3,13 +3,16 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native'
 import { thirdFontColor } from '../utilities/GlobalStyles'
 import Ionicons from "react-native-vector-icons/Ionicons"
 
-export default function Footer() {
+export default function Footer(props) {
     const iconSizes = 24
 
     return (
         <View style={styles.container}>
             <TouchableOpacity
                 activeOpacity={.7}
+                onPress={() => {
+                    props.navigation && props.navigation.navigate('HomeScreen')
+                }}
             >
                 <View style={[styles.footer_btns, styles.footer_btns_home]}>
                     <Ionicons

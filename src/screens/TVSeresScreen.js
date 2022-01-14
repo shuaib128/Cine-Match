@@ -9,8 +9,11 @@ import TopRated from '../components/HomeScreenComponents/TopRated'
 import TrendingSkeletonLoder from '../utilities/TrendingSkeletonLoder'
 import MoveListingSkeleton from '../utilities/MoveListingSkeleton'
 import Categorys from '../components/TvScreenComponents/Categorys'
+import { useRoute } from '@react-navigation/native'
 
 export default function TVSeresScreen(props) {
+    const route = useRoute();
+
     const [NowPlayingMovie, setNowPlayingMovie] = useState(() => {
         axios.get(`https://api.themoviedb.org/3/trending/tv/week?api_key=${ApiKey}`)
             .then((res) => {
@@ -59,6 +62,8 @@ export default function TVSeresScreen(props) {
                 {NowPlayingMovie ?
                     <NowPlayingMovies
                         NowPlayingMovie={NowPlayingMovie}
+                        navigation={props.navigation}
+                        screen_name ={route.name}
                     /> :
                     <TrendingSkeletonLoder />
                 }
@@ -75,6 +80,7 @@ export default function TVSeresScreen(props) {
                         movie_tv="tv"
                         navigation={props.navigation}
                         query="popular"
+                        screen_name ={route.name}
                     /> :
                     <MoveListingSkeleton />
                 }
@@ -85,6 +91,7 @@ export default function TVSeresScreen(props) {
                         movie_tv="tv"
                         navigation={props.navigation}
                         query="top_rated"
+                        screen_name ={route.name}
                     /> :
                     <MoveListingSkeleton />
                 }
@@ -95,6 +102,7 @@ export default function TVSeresScreen(props) {
                         movie_tv="tv"
                         navigation={props.navigation}
                         query="on_the_air"
+                        screen_name ={route.name}
                     /> :
                     <MoveListingSkeleton />
                 }
@@ -105,12 +113,15 @@ export default function TVSeresScreen(props) {
                         movie_tv="tv"
                         navigation={props.navigation}
                         query="airing_today"
+                        screen_name ={route.name}
                     /> :
                     <MoveListingSkeleton />
                 }
             </ScrollView>
 
-            <Footer />
+            <Footer 
+                navigation={props.navigation}
+            />
         </View>
     )
 }

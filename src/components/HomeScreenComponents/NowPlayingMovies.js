@@ -9,7 +9,6 @@ import Ionicons from "react-native-vector-icons/Ionicons"
 const { width, height } = Dimensions.get("screen")
 
 export default function NowPlayingMovies(props) {
-
     return (
         <View style={styles.container}>
             <Text style={styles.Comming_soon}>Trending This Week</Text>
@@ -49,8 +48,9 @@ export default function NowPlayingMovies(props) {
                             <TouchableOpacity
                                 activeOpacity={.7}
                                 onPress={() => {
-                                    props.navigation && props.navigation.navigate('MovieDetail', {
-                                        movie_id: item.id
+                                    props.navigation && props.navigation.push('MovieDetail', {
+                                        movie_id: item.id,
+                                        movieOrTV: props.screen_name
                                     })
                                 }}
                             >

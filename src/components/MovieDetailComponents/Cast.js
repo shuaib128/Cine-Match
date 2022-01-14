@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     actor: {
         borderRadius: 7,
         marginRight: 13,
-        backgroundColor: "white"
+        backgroundColor: mainFontColor
     },
     actor_des: {
         width: 150,

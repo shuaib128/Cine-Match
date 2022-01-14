@@ -11,7 +11,7 @@ import { mainFontColor, secondFontColor, thirdFontColor } from '../utilities/Glo
 import ViewAllSkeleton from '../utilities/ViewAllSkeleton'
 
 export default function ViewAll(props) {
-    const { movie_tv, screen_name, query } = props.route.params
+    const { movie_tv, screen_name, query, query_name } = props.route.params
     const [pageNumber, setpageNumber] = useState(1)
     const [IsLoading, setIsLoading] = useState(false)
 
@@ -83,6 +83,12 @@ export default function ViewAll(props) {
                             return (
                                 <TouchableOpacity
                                     activeOpacity={.7}
+                                    onPress={() => {
+                                        props.navigation && props.navigation.push('MovieDetail', {
+                                            movie_id: item.id,
+                                            movieOrTV: query_name
+                                        })
+                                    }}
                                 >
                                     <View key={item.id.toString()} style={styles.rated_view}>
                                         <View style={styles.movieImage}>

@@ -9,8 +9,11 @@ import TopRated from '../components/HomeScreenComponents/TopRated'
 import TrendingSkeletonLoder from '../utilities/TrendingSkeletonLoder'
 import MoveListingSkeleton from '../utilities/MoveListingSkeleton'
 import Ctegoryes from '../components/HomeScreenComponents/Ctegoryes'
+import { useRoute } from '@react-navigation/native'
 
 export default function HomeScreen(props) {
+    const route = useRoute();
+
     const [NowPlayingMovie, setNowPlayingMovie] = useState(() => {
         axios.get(`https://api.themoviedb.org/3/trending/movie/week?api_key=${ApiKey}`)
             .then((res) => {
@@ -53,6 +56,7 @@ export default function HomeScreen(props) {
                     <NowPlayingMovies
                         NowPlayingMovie={NowPlayingMovie}
                         navigation={props.navigation}
+                        screen_name ={route.name}
                     /> :
                     <TrendingSkeletonLoder />
                 }
@@ -69,6 +73,7 @@ export default function HomeScreen(props) {
                         movie_tv="movie"
                         TopRatedMovie={Populur}
                         navigation={props.navigation}
+                        screen_name ={route.name}
                     /> :
                     <MoveListingSkeleton />
                 }
@@ -79,6 +84,7 @@ export default function HomeScreen(props) {
                         movie_tv="movie"
                         TopRatedMovie={TopRatedMovie}
                         navigation={props.navigation}
+                        screen_name ={route.name}
                     /> :
                     <MoveListingSkeleton />
                 }
@@ -89,6 +95,7 @@ export default function HomeScreen(props) {
                         movie_tv="movie"
                         TopRatedMovie={UpComming}
                         navigation={props.navigation}
+                        screen_name ={route.name}
                     /> :
                     <MoveListingSkeleton />
                 }

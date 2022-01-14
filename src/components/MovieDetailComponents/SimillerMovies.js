@@ -8,7 +8,7 @@ import Ionicons from "react-native-vector-icons/Ionicons"
 
 const { width, height } = Dimensions.get("screen")
 
-export default function TopRated(props) {
+export default function SimillerMovies(props) {
     const scrollX = useRef(new Animated.Value(0)).current
 
     return (
@@ -22,8 +22,7 @@ export default function TopRated(props) {
                         props.navigation && props.navigation.navigate('ViewAll', {
                             movie_tv: props.movie_tv,
                             screen_name: props.title,
-                            query: props.query,
-                            query_name: props.screen_name
+                            query: props.query
                         })
                     }}
                 >
@@ -111,9 +110,7 @@ export default function TopRated(props) {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 15,
-        marginBottom: 15,
-        transform: [{ translateX: 17 }]
+        marginTop: 25,
     },
     Comming_soon: {
         color: mainFontColor,
