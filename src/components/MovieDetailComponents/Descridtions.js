@@ -1,10 +1,12 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity,
+import {
+    View, Text, StyleSheet, TouchableOpacity,
     Linking
 } from 'react-native'
 import Ionicons from "react-native-vector-icons/Ionicons"
 import { mainFontColor, secondFontColor, thirdFontColor } from '../../utilities/GlobalStyles'
 import ExtraInfoBlock from './ExtraInfoBlock'
+import TvseresCreatorsName from './TvDetails/TvseresCreatorsName'
 
 function timeConvert(n) {
     var num = n;
@@ -12,7 +14,11 @@ function timeConvert(n) {
     var rhours = Math.floor(hours);
     var minutes = (hours - rhours) * 60;
     var rminutes = Math.round(minutes);
-    return rhours + "h " + rminutes + "m";
+    if (rhours !== 0) {
+        return rhours + "h " + rminutes + "m";
+    } else {
+        return rminutes + "m";
+    }
 }
 
 export default function Descridtions(props) {
@@ -31,7 +37,13 @@ export default function Descridtions(props) {
                         />
                         <Text style={styles.vote_average}>{props.Movie.vote_average}</Text>
                     </View>
-                    <Text style={styles.runtime}>{timeConvert(props.Movie.runtime)}</Text>
+                    <Text style={styles.runtime}>
+                        {
+                            props.Movie.runtime ? timeConvert(props.Movie.runtime) :
+                                props.Movie.episode_run_time ? timeConvert(props.Movie.episode_run_time) :
+                                    ""
+                        }
+                    </Text>
                     <Text style={styles.runtime}>18+</Text>
                 </View>
 
@@ -60,7 +72,13 @@ export default function Descridtions(props) {
                 </View>
             </View>
 
-            <Text style={styles.title}>{props.Movie.title}</Text>
+            <Text style={styles.title}>
+                {
+                    props.Movie.title ? props.Movie.title :
+                        props.Movie.name ? props.Movie.name :
+                            ''
+                }
+            </Text>
             <Text style={styles.homepage}
                 onPress={() => Linking.openURL(props.Movie.homepage)}
             >
@@ -69,42 +87,71 @@ export default function Descridtions(props) {
             <Text style={styles.des}>{props.Movie.overview}</Text>
 
             <View style={styles.extra_infos}>
-                <ExtraInfoBlock
-                    kei="Director"
-                    link={false}
-                    value={
-                        crew.map((charcter) => {
-                            if (charcter.job === "Director") {
-                                return (charcter.name);
-                            }
-                        })
-                    }
-                />
+                {props.Movie.created_by ?
+                    <TvseresCreatorsName
+                        kei="Director"
+                        link={false}
+                        value={
+                            props.Movie.created_by.map((charcter) => {
+                                return (`${charcter.name}  |  `);
+                            })
+                        }
+                    /> :
+                    <ExtraInfoBlock
+                        kei="Director"
+                        link={false}
+                        value={
+                            crew.map((charcter) => {
+                                if (charcter.job === "Director") {
+                                    return (charcter.name);
+                                }
+                            })
+                        }
+                    />
+                }
+
                 <ExtraInfoBlock
                     kei="Release Date"
                     link={false}
-                    value={props.Movie.release_date}
+                    value={
+                        props.Movie.release_date ? props.Movie.release_date :
+                            props.Movie.first_air_date ? props.Movie.first_air_date :
+                                ''
+                    }
                 />
+
                 <ExtraInfoBlock
                     kei="Status"
                     link={false}
                     value={props.Movie.status}
                 />
-                <ExtraInfoBlock
-                    kei="Tagline"
-                    link={false}
-                    value={props.Movie.tagline}
-                />
-                <ExtraInfoBlock
-                    kei="Buget"
-                    link={false}
-                    value={`$${props.Movie.budget}`}
-                />
-                <ExtraInfoBlock
-                    kei="Revenue"
-                    link={false}
-                    value={`$${props.Movie.revenue}`}
-                />
+
+                {props.Movie.tagline ?
+                    <ExtraInfoBlock
+                        kei="Tagline"
+                        link={false}
+                        value={props.Movie.tagline}
+                    /> :
+                    <View></View>
+                }
+
+                {props.Movie.budget !== 0 && props.Movie.budget !== undefined ?
+                    <ExtraInfoBlock
+                        kei="Buget"
+                        link={false}
+                        value={`$${props.Movie.budget}`}
+                    /> :
+                    <View></View>
+                }
+                
+                {props.Movie.revenue !== 0 && props.Movie.revenue !== undefined ?
+                    <ExtraInfoBlock
+                        kei="Revenue"
+                        link={false}
+                        value={`$${props.Movie.revenue}`}
+                    /> :
+                    <View></View>
+                }
             </View>
         </View>
     )

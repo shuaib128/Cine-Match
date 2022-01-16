@@ -86,7 +86,7 @@ export default function TopRated(props) {
                                     activeOpacity={.7}
                                 >
                                     <Text style={styles.original_title}>
-                                        {item.title ? item.title.slice(0, 17) : item.original_name.slice(0, 17)}...
+                                        {item.title ? item.title.slice(0, 17) : item.name.slice(0, 17)}...
                                     </Text>
                                 </TouchableOpacity>
 

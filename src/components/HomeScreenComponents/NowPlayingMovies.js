@@ -59,7 +59,7 @@ export default function NowPlayingMovies(props) {
                                         styles.original_title
                                     ]}
                                 >
-                                    {item.original_title ? item.original_title : item.original_name}
+                                    {item.original_title ? item.original_title : item.name}
                                 </Text>
                             </TouchableOpacity>
                         </View>

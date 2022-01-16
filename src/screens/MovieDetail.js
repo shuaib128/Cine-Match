@@ -12,6 +12,7 @@ import Reviews from '../components/MovieDetailComponents/Reviews'
 import Images from '../components/MovieDetailComponents/Images'
 import Videos from '../components/MovieDetailComponents/Videos'
 import SimillerMovies from '../components/MovieDetailComponents/SimillerMovies'
+import Sesons from '../components/MovieDetailComponents/TvDetails/Sesons'
 import Footer from '../utilities/Footer'
 
 //Preloaders
@@ -110,6 +111,7 @@ export default function MovieDetail(props) {
                         /> :
                         <DescriptionSkeleton />
                     }
+
                     {Movie && CastAndCrew ?
                         <Cast
                             CastAndCrew={CastAndCrew}
@@ -118,6 +120,7 @@ export default function MovieDetail(props) {
                         /> :
                         <CastSkeleton />
                     }
+
                     {Reviewes ?
                         <Reviews
                             Reviewes={Reviewes}
@@ -125,18 +128,28 @@ export default function MovieDetail(props) {
                         /> :
                         <ReviewSkeleton />
                     }
+
                     {Backdrops ?
                         <Images
                             Backdrops={Backdrops}
                         /> :
                         <ReviewSkeleton />
                     }
+
+                    {Movie ?
+                        <Sesons
+                            Movie={Movie}
+                        />:
+                        <View></View>
+                    }
+
                     {Videos_ ?
                         <Videos
                             Videos_={Videos_}
                         /> :
                         <ReviewSkeleton />
                     }
+
                     {SimmilerMove ?
                         <SimillerMovies
                             title="Similar"
@@ -144,10 +157,11 @@ export default function MovieDetail(props) {
                             movie_tv="movie"
                             TopRatedMovie={SimmilerMove}
                             navigation={props.navigation}
-                            screen_name ={movieOrTV}
+                            screen_name={movieOrTV}
                         /> :
                         <CastSkeleton />
                     }
+
                     {RecomendedMovie ?
                         <SimillerMovies
                             title="Recommendation"
@@ -155,7 +169,7 @@ export default function MovieDetail(props) {
                             movie_tv="movie"
                             TopRatedMovie={RecomendedMovie}
                             navigation={props.navigation}
-                            screen_name ={movieOrTV}
+                            screen_name={movieOrTV}
                         /> :
                         <CastSkeleton />
                     }
@@ -174,7 +188,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         backgroundColor: '#1f2123',
         flex: 1,
-        color: "#fff"
+        color: "#fff",
     },
     movie_bottom: {
         paddingHorizontal: 18,

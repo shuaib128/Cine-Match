@@ -69,8 +69,9 @@ export default function TVSeresScreen(props) {
                 }
 
                 <Categorys
-                    movie_tv="movie"
+                    movie_tv="tv"
                     navigation={props.navigation}
+                    screen_name ={route.name}
                 />
 
                 {Populur ?

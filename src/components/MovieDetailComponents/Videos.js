@@ -23,31 +23,36 @@ export default function Videos(props) {
     }, [])
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.Comming_soon}>Videos</Text>
+        <View>
+            {props.Videos_.results.length !== 0 ?
+                <View style={styles.container}>
+                    <Text style={styles.Comming_soon}>Videos</Text>
 
-            <FlatList
-                keyExtractor={(item, index) => index.toString()}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={props.Videos_.results}
-                snapToInterval={width - 36 + 13}
-                decelerationRate="fast"
-                renderItem={({ item }) => {
-                    return (
-                        <TouchableOpacity onPress={togglePlaying}>
-                            <View style={styles.video}>
-                                <YoutubePlayer
-                                    height={200}
-                                    play={playing}
-                                    videoId={item.key}
-                                    onChangeState={onStateChange}
-                                />
-                            </View>
-                        </TouchableOpacity>
-                    )
-                }}
-            />
+                    <FlatList
+                        keyExtractor={(item, index) => index.toString()}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        data={props.Videos_.results}
+                        snapToInterval={width - 36 + 13}
+                        decelerationRate="fast"
+                        renderItem={({ item }) => {
+                            return (
+                                <TouchableOpacity onPress={togglePlaying}>
+                                    <View style={styles.video}>
+                                        <YoutubePlayer
+                                            height={200}
+                                            play={playing}
+                                            videoId={item.key}
+                                            onChangeState={onStateChange}
+                                        />
+                                    </View>
+                                </TouchableOpacity>
+                            )
+                        }}
+                    />
+                </View> :
+                <View></View>
+            }
         </View>
     )
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {
     View, Text, StyleSheet,
     FlatList, TouchableOpacity, Image,
-    ActivityIndicator
+    ActivityIndicator, Dimensions
 } from 'react-native'
 import axios from 'axios'
 import { ApiKey } from '../utilities/ApiKey'
@@ -10,13 +10,14 @@ import Ionicons from "react-native-vector-icons/Ionicons"
 import { mainFontColor, secondFontColor, thirdFontColor } from '../utilities/GlobalStyles'
 import ViewAllSkeleton from '../utilities/ViewAllSkeleton'
 
+const { width, height } = Dimensions.get("screen")
 export default function ViewAllCategory(props) {
-    const { movie_tv, screen_name, query } = props.route.params
+    const { movie_tv, screen_name, query, query_name } = props.route.params
     const [pageNumber, setpageNumber] = useState(1)
     const [IsLoading, setIsLoading] = useState(false)
 
     const [AllMovie, setAllMovie] = useState(() => {
-        axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${ApiKey}&language=en-US&query=${query}&page=${pageNumber}&include_adult=true`)
+        axios.get(`https://api.themoviedb.org/3/search/${movie_tv}?api_key=${ApiKey}&language=en-US&query=${query}&page=${pageNumber}&include_adult=true`)
             .then((res) => {
                 setAllMovie(res.data.results)
             })
@@ -27,7 +28,7 @@ export default function ViewAllCategory(props) {
         setIsLoading(true)
 
         if (pageNumber !== 1) {
-            axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${ApiKey}&language=en-US&query=${query}&page=${pageNumber}&include_adult=true`)
+            axios.get(`https://api.themoviedb.org/3/search/${movie_tv}?api_key=${ApiKey}&language=en-US&query=${query}&page=${pageNumber}&include_adult=true`)
                 .then((res) => {
                     setAllMovie(e => {
                         return [...new Set([...e, ...res.data.results])]
@@ -36,7 +37,7 @@ export default function ViewAllCategory(props) {
                 .then(() => setIsLoading(false))
         } else {
             setpageNumber((prevstate) => prevstate + 1)
-            axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${ApiKey}&language=en-US&query=${query}&page=2&include_adult=true`)
+            axios.get(`https://api.themoviedb.org/3/search/${movie_tv}?api_key=${ApiKey}&language=en-US&query=${query}&page=2&include_adult=true`)
                 .then((res) => {
                     setAllMovie(e => {
                         return [...AllMovie, ...res.data.results]
@@ -60,7 +61,7 @@ export default function ViewAllCategory(props) {
                     </TouchableOpacity> :
 
                     <View style={styles.load_more_btn}>
-                        <ActivityIndicator size="large" color={secondFontColor}/>
+                        <ActivityIndicator size="large" color={secondFontColor} />
                     </View>
                 }
             </View>
@@ -83,6 +84,12 @@ export default function ViewAllCategory(props) {
                             return (
                                 <TouchableOpacity
                                     activeOpacity={.7}
+                                    onPress={() => {
+                                        props.navigation && props.navigation.push('MovieDetail', {
+                                            movie_id: item.id,
+                                            movieOrTV: query_name
+                                        })
+                                    }}
                                 >
                                     <View key={item.id.toString()} style={styles.rated_view}>
                                         <View style={styles.movieImage}>
@@ -101,7 +108,7 @@ export default function ViewAllCategory(props) {
                                             activeOpacity={.7}
                                         >
                                             <Text style={styles.original_title}>
-                                                {item.title ? item.title.slice(0, 17) : item.original_name.slice(0, 17)}...
+                                                {item.title ? item.title.slice(0, 17) : item.name.slice(0, 17)}...
                                             </Text>
                                         </TouchableOpacity>
 
@@ -144,11 +151,12 @@ const styles = StyleSheet.create({
         fontWeight: "700"
     },
     rated_view: {
+        width: width / 2.25,
         position: 'relative',
         marginBottom: 20
     },
     movieImage: {
-        width: 175,
+        width: "100%",
         height: 240,
         overflow: 'hidden',
         borderRadius: 10,

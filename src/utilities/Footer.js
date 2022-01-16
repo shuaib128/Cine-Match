@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         bottom: 0,
         width: '100%',
-        paddingVertical: 10,
+        paddingVertical: 13,
         backgroundColor: '#1f2123',
         paddingHorizontal: 30,
         justifyContent: 'space-between'

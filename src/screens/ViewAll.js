@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {
     View, Text, StyleSheet,
     FlatList, TouchableOpacity, Image,
-    ActivityIndicator
+    ActivityIndicator, Dimensions
 } from 'react-native'
 import axios from 'axios'
 import { ApiKey } from '../utilities/ApiKey'
@@ -10,6 +10,7 @@ import Ionicons from "react-native-vector-icons/Ionicons"
 import { mainFontColor, secondFontColor, thirdFontColor } from '../utilities/GlobalStyles'
 import ViewAllSkeleton from '../utilities/ViewAllSkeleton'
 
+const { width, height } = Dimensions.get("screen")
 export default function ViewAll(props) {
     const { movie_tv, screen_name, query, query_name } = props.route.params
     const [pageNumber, setpageNumber] = useState(1)
@@ -107,7 +108,7 @@ export default function ViewAll(props) {
                                             activeOpacity={.7}
                                         >
                                             <Text style={styles.original_title}>
-                                                {item.title ? item.title.slice(0, 17) : item.original_name.slice(0, 17)}...
+                                                {item.title ? item.title.slice(0, 17) : item.name.slice(0, 17)}...
                                             </Text>
                                         </TouchableOpacity>
 
@@ -150,11 +151,12 @@ const styles = StyleSheet.create({
         fontWeight: "700"
     },
     rated_view: {
+        width: width / 2.25,
         position: 'relative',
         marginBottom: 20
     },
     movieImage: {
-        width: 175,
+        width: "100%",
         height: 240,
         overflow: 'hidden',
         borderRadius: 10,

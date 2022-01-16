@@ -64,6 +64,7 @@ export default function HomeScreen(props) {
                 <Ctegoryes
                     movie_tv="movie"
                     navigation={props.navigation}
+                    screen_name ={route.name}
                 />
 
                 {Populur ?

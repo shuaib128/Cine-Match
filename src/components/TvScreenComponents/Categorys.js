@@ -4,7 +4,6 @@ import {
     ScrollView, TouchableOpacity
 } from 'react-native'
 import { mainFontColor, secondFontColor } from '../../utilities/GlobalStyles'
-import { useRoute } from '@react-navigation/native'
 
 const genres = {
     10759: "Action & Adventure",
@@ -29,8 +28,6 @@ const genres = {
 }
 
 export default function Categorys(props) {
-    const route = useRoute();
-
     return (
         <View style={styles.container}>
             <ScrollView
@@ -56,7 +53,8 @@ export default function Categorys(props) {
                             props.navigation && props.navigation.navigate('ViewAllCategory', {
                                 movie_tv: props.movie_tv,
                                 screen_name: cat,
-                                query: cat
+                                query: cat,
+                                query_name: props.screen_name
                             })
                         }}
                     >

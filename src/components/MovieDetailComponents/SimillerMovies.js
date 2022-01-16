@@ -4,105 +4,115 @@ import {
     Dimensions, Animated
 } from 'react-native'
 import { mainFontColor, secondFontColor, thirdFontColor } from '../../utilities/GlobalStyles'
+import { useRoute } from '@react-navigation/native'
 import Ionicons from "react-native-vector-icons/Ionicons"
 
 const { width, height } = Dimensions.get("screen")
 
 export default function SimillerMovies(props) {
     const scrollX = useRef(new Animated.Value(0)).current
+    const route = useRoute();
 
     return (
-        <View style={styles.container}>
-            <View style={styles.list_heading}>
-                <Text style={styles.Comming_soon}>{props.title}</Text>
+        <View>
+            {props.TopRatedMovie.length !== 0 ?
+                <View style={styles.container}>
+                    <View style={styles.list_heading}>
+                        <Text style={styles.Comming_soon}>{props.title}</Text>
 
-                <TouchableOpacity
-                    activeOpacity={.7}
-                    onPress={() => {
-                        props.navigation && props.navigation.navigate('ViewAll', {
-                            movie_tv: props.movie_tv,
-                            screen_name: props.title,
-                            query: props.query
-                        })
-                    }}
-                >
-                    <Text style={styles.view_all}>VIEW ALL</Text>
-                </TouchableOpacity>
-            </View>
+                        {route.name !== "PersonScreen" ?
+                            <TouchableOpacity
+                                activeOpacity={.7}
+                                onPress={() => {
+                                    props.navigation && props.navigation.navigate('ViewAll', {
+                                        movie_tv: props.movie_tv,
+                                        screen_name: props.title,
+                                        query: props.query
+                                    })
+                                }}
+                            >
+                                <Text style={styles.view_all}>VIEW ALL</Text>
+                            </TouchableOpacity> :
+                            <View></View>
+                        }
+                    </View>
 
-            <Animated.FlatList
-                keyExtractor={(item) => item.id.toString()}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                snapToInterval={width / 2.9}
-                decelerationRate="fast"
-                data={props.TopRatedMovie}
-                onScroll={Animated.event(
-                    [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-                    { useNativeDriver: true }
-                )}
-                renderItem={({ item, index }) => {
-                    const inputRange = [
-                        (index - 1) * width / 2,
-                        index * width / 2,
-                        (index + 1) * width / 2,
-                    ]
+                    <Animated.FlatList
+                        keyExtractor={(item, index) => index.toString()}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        snapToInterval={width / 2.9}
+                        decelerationRate="fast"
+                        data={props.TopRatedMovie}
+                        onScroll={Animated.event(
+                            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                            { useNativeDriver: true }
+                        )}
+                        renderItem={({ item, index }) => {
+                            const inputRange = [
+                                (index - 1) * width / 2,
+                                index * width / 2,
+                                (index + 1) * width / 2,
+                            ]
 
-                    const scale = scrollX.interpolate({
-                        inputRange,
-                        outputRange: [1, 1.1, 1]
-                    })
+                            const scale = scrollX.interpolate({
+                                inputRange,
+                                outputRange: [1, 1.1, 1]
+                            })
 
-                    return (
-                        <TouchableOpacity
-                            activeOpacity={.7}
-                            onPress={() => {
-                                props.navigation && props.navigation.push('MovieDetail', {
-                                    movie_id: item.id,
-                                    movieOrTV: props.screen_name
-                                })
-                            }}
-                        >
-                            <View key={item.id.toString()} style={styles.rated_view}>
-                                <View style={styles.movieImage}>
-                                    <Animated.Image
-                                        source={{
-                                            uri: "https://www.themoviedb.org/t/p/w300_and_h450_bestv2"
-                                                + item.poster_path
-                                        }}
-                                        style={[
-                                            StyleSheet.absoluteFillObject,
-                                            {
-                                                resizeMode: 'cover',
-                                                borderRadius: 10,
-                                                transform: [{ scale }]
-                                            }
-                                        ]}
-                                    />
-                                </View>
-
+                            return (
                                 <TouchableOpacity
                                     activeOpacity={.7}
+                                    onPress={() => {
+                                        props.navigation && props.navigation.push('MovieDetail', {
+                                            movie_id: item.id,
+                                            movieOrTV: props.screen_name
+                                        })
+                                    }}
                                 >
-                                    <Text style={styles.original_title}>
-                                        {item.title ? item.title.slice(0, 17) : item.original_name.slice(0, 17)}...
-                                    </Text>
-                                </TouchableOpacity>
+                                    <View key={item.id.toString()} style={styles.rated_view}>
+                                        <View style={styles.movieImage}>
+                                            <Animated.Image
+                                                source={{
+                                                    uri: "https://www.themoviedb.org/t/p/w300_and_h450_bestv2"
+                                                        + item.poster_path
+                                                }}
+                                                style={[
+                                                    StyleSheet.absoluteFillObject,
+                                                    {
+                                                        resizeMode: 'cover',
+                                                        borderRadius: 10,
+                                                        transform: [{ scale }]
+                                                    }
+                                                ]}
+                                            />
+                                        </View>
 
-                                <View style={styles.reviewblock}>
-                                    <Ionicons
-                                        style={styles.searchIcon}
-                                        name="star"
-                                        size={13}
-                                        color={secondFontColor}
-                                    />
-                                    <Text style={styles.vote_average}>{item.vote_average}</Text>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                    )
-                }}
-            />
+                                        <TouchableOpacity
+                                            activeOpacity={.7}
+                                        >
+                                            <Text style={styles.original_title}>
+                                                {item.title ? item.title.slice(0, 17) : item.name.slice(0, 17)}...
+                                            </Text>
+                                        </TouchableOpacity>
+
+                                        <View style={styles.reviewblock}>
+                                            <Ionicons
+                                                style={styles.searchIcon}
+                                                name="star"
+                                                size={13}
+                                                color={secondFontColor}
+                                            />
+                                            <Text style={styles.vote_average}>{item.vote_average}</Text>
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+                            )
+                        }}
+                    />
+                </View> :
+                <View></View>
+            }
         </View>
     )
 }

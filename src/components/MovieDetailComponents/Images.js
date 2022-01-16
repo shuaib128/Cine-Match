@@ -8,29 +8,34 @@ import { mainFontColor, secondFontColor, thirdFontColor } from '../../utilities/
 const { width, height } = Dimensions.get("screen")
 export default function Images(props) {
     return (
-        <View style={styles.container}>
-            <Text style={styles.Comming_soon}>Posters</Text>
+        <View>
+            {props.Backdrops.backdrops.length !== 0 ?
+                <View style={styles.container}>
+                    <Text style={styles.Comming_soon}>Posters</Text>
 
-            <FlatList
-                keyExtractor={(item, index) => index.toString()}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={props.Backdrops.backdrops}
-                snapToInterval={width - 36 + 13}
-                decelerationRate="fast"
-                renderItem={({ item }) => {
-                    return (
-                        <View style={styles.image}>
-                            <Image
-                                source={{
-                                    uri: `https://www.themoviedb.org/t/p/w1066_and_h600_bestv2${item.file_path}`
-                                }}
-                                style={styles.actorImage}
-                            />
-                        </View>
-                    )
-                }}
-            />
+                    <FlatList
+                        keyExtractor={(item, index) => index.toString()}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        data={props.Backdrops.backdrops}
+                        snapToInterval={width - 36 + 13}
+                        decelerationRate="fast"
+                        renderItem={({ item }) => {
+                            return (
+                                <View style={styles.image}>
+                                    <Image
+                                        source={{
+                                            uri: `https://www.themoviedb.org/t/p/w1066_and_h600_bestv2${item.file_path}`
+                                        }}
+                                        style={styles.actorImage}
+                                    />
+                                </View>
+                            )
+                        }}
+                    />
+                </View> :
+                <View></View>
+            }
         </View>
     )
 }
@@ -41,7 +46,7 @@ const styles = StyleSheet.create({
         marginTop: 25
     },
     image: {
-        
+
     },
     Comming_soon: {
         color: mainFontColor,
@@ -49,7 +54,7 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         fontWeight: "700"
     },
-    actorImage:{
+    actorImage: {
         width: width - 36,
         height: 200,
         borderRadius: 7,

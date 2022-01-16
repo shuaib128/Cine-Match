@@ -29,7 +29,16 @@ export default function Cast(props) {
                             />
 
                             <View style={styles.actor_des}>
-                                <Text style={styles.name}>{item.name}</Text>
+                                <TouchableOpacity
+                                    activeOpacity={.7}
+                                    onPress={() => {
+                                        props.navigation && props.navigation.push('PersonScreen', {
+                                            person_id: item.id
+                                        })
+                                    }}
+                                >
+                                    <Text style={styles.name}>{item.name}</Text>
+                                </TouchableOpacity>
                                 <Text style={styles.charector}>{item.character}</Text>
                             </View>
                         </View>
@@ -86,7 +95,7 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         fontWeight: "700"
     },
-    loadallcast:{
+    loadallcast: {
         color: mainFontColor,
         marginTop: 10
     }
