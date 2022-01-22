@@ -26,6 +26,9 @@ export default function Footer(props) {
 
             <TouchableOpacity
                 activeOpacity={.7}
+                onPress={() => {
+                    props.navigation && props.navigation.navigate('SearchScreen')
+                }}
             >
                 <View style={styles.footer_btns}>
                     <Ionicons
