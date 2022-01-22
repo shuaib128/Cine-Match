@@ -13,6 +13,8 @@ import ViewAllCategory from './src/screens/ViewAllCategory'
 import MovieDetail from './src/screens/MovieDetail';
 import FullCast from './src/screens/FullCast';
 import PersonScreen from './src/screens/PersonScreen';
+import SeasonDetail from './src/screens/SeasonDetail';
+import EpisodeDetail from './src/screens/EpisodeDetail';
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -31,6 +33,8 @@ const App = () => {
           <Stack.Screen name="MovieDetail" component={MovieDetail} />
           <Stack.Screen name="FullCast" component={FullCast} />
           <Stack.Screen name="PersonScreen" component={PersonScreen} />
+          <Stack.Screen name="SeasonDetail" component={SeasonDetail} />
+          <Stack.Screen name="EpisodeDetail" component={EpisodeDetail} />
         </Stack.Navigator>
       </NavigationContainer>
 

@@ -10,7 +10,6 @@ import Ionicons from "react-native-vector-icons/Ionicons"
 const { width, height } = Dimensions.get("screen")
 
 export default function SimillerMovies(props) {
-    const scrollX = useRef(new Animated.Value(0)).current
     const route = useRoute();
 
     return (
@@ -27,7 +26,9 @@ export default function SimillerMovies(props) {
                                     props.navigation && props.navigation.navigate('ViewAll', {
                                         movie_tv: props.movie_tv,
                                         screen_name: props.title,
-                                        query: props.query
+                                        query: props.query,
+                                        query_name: props.screen_name,
+                                        movieID: props.movieID
                                     })
                                 }}
                             >
@@ -44,22 +45,7 @@ export default function SimillerMovies(props) {
                         snapToInterval={width / 2.9}
                         decelerationRate="fast"
                         data={props.TopRatedMovie}
-                        onScroll={Animated.event(
-                            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-                            { useNativeDriver: true }
-                        )}
                         renderItem={({ item, index }) => {
-                            const inputRange = [
-                                (index - 1) * width / 2,
-                                index * width / 2,
-                                (index + 1) * width / 2,
-                            ]
-
-                            const scale = scrollX.interpolate({
-                                inputRange,
-                                outputRange: [1, 1.1, 1]
-                            })
-
                             return (
                                 <TouchableOpacity
                                     activeOpacity={.7}
@@ -82,7 +68,6 @@ export default function SimillerMovies(props) {
                                                     {
                                                         resizeMode: 'cover',
                                                         borderRadius: 10,
-                                                        transform: [{ scale }]
                                                     }
                                                 ]}
                                             />
@@ -168,7 +153,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 13,
-        paddingRight: 40,
+        paddingRight: 7,
         alignItems: 'center',
         marginBottom: 5
     }

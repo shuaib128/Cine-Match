@@ -12,12 +12,12 @@ import ViewAllSkeleton from '../utilities/ViewAllSkeleton'
 
 const { width, height } = Dimensions.get("screen")
 export default function ViewAll(props) {
-    const { movie_tv, screen_name, query, query_name } = props.route.params
+    const { movie_tv, screen_name, query, query_name, movieID } = props.route.params
     const [pageNumber, setpageNumber] = useState(1)
     const [IsLoading, setIsLoading] = useState(false)
 
     const [AllMovie, setAllMovie] = useState(() => {
-        axios.get(`https://api.themoviedb.org/3/${movie_tv}/${query}?api_key=${ApiKey}&language=en-US&page=${pageNumber}`)
+        axios.get(`https://api.themoviedb.org/3/${query_name === "HomeScreen" ? "movie" : "tv"}/${movieID ? movieID + "/" : ""}${query}?api_key=${ApiKey}&language=en-US&page=${pageNumber}`)
             .then((res) => {
                 setAllMovie(res.data.results)
             })
@@ -28,7 +28,7 @@ export default function ViewAll(props) {
         setIsLoading(true)
 
         if (pageNumber !== 1) {
-            axios.get(`https://api.themoviedb.org/3/${movie_tv}/${query}?api_key=${ApiKey}&language=en-US&page=${pageNumber}`)
+            axios.get(`https://api.themoviedb.org/3/${query_name === "HomeScreen" ? "movie" : "tv"}/${movieID ? movieID + "/" : ""}${query}?api_key=${ApiKey}&language=en-US&page=${pageNumber}`)
                 .then((res) => {
                     setAllMovie(e => {
                         return [...new Set([...e, ...res.data.results])]
@@ -37,7 +37,7 @@ export default function ViewAll(props) {
                 .then(() => setIsLoading(false))
         } else {
             setpageNumber((prevstate) => prevstate + 1)
-            axios.get(`https://api.themoviedb.org/3/${movie_tv}/${query}?api_key=${ApiKey}&language=en-US&page=2`)
+            axios.get(`https://api.themoviedb.org/3/${query_name === "HomeScreen" ? "movie" : "tv"}/${movieID ? movieID + "/" : ""}${query}?api_key=${ApiKey}&language=en-US&page=2`)
                 .then((res) => {
                     setAllMovie(e => {
                         return [...AllMovie, ...res.data.results]

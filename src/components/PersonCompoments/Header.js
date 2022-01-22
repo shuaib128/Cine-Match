@@ -112,10 +112,14 @@ const styles = StyleSheet.create({
         paddingTop: 20
     },
     header_top: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: "center",
+        alignContent: 'center',
+        alignSelf: "center"
+        
     },
     header_bio: {
-        marginTop: 15
+        marginTop: 25
     },
     person_img: {
         width: '40%',
@@ -125,7 +129,6 @@ const styles = StyleSheet.create({
     },
     person_details: {
         paddingHorizontal: 20,
-        paddingVertical: 10,
         width: '60%',
     },
     personal_name: {

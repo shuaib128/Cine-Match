@@ -36,6 +36,12 @@ export default function Sesons(props) {
                                     <View style={styles.seasonDetail}>
                                         <TouchableOpacity
                                             activeOpacity={.7}
+                                            onPress={() => {
+                                                props.navigation && props.navigation.push('SeasonDetail', {
+                                                    movie_id: props.Movie.id,
+                                                    season_num: item.season_number
+                                                })
+                                            }}
                                         >
                                             <Text style={styles.seasonName}>{item.name}</Text>
                                         </TouchableOpacity>

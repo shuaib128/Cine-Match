@@ -1,7 +1,7 @@
 import React from 'react'
 import {
     View, Text, StyleSheet, FlatList,
-    Image, ScrollView
+    Image, ScrollView, TouchableOpacity
 } from 'react-native'
 import { mainFontColor } from '../utilities/GlobalStyles'
 
@@ -11,37 +11,49 @@ export default function FullCast(props) {
     return (
         <ScrollView>
             <View style={styles.container}>
-                <View style={styles.cast}>
-                    <FlatList
-                        ListHeaderComponent={
-                            <Text style={styles.view_all_name}>
-                                Cast {castAndcrew.cast.length}
-                            </Text>
-                        }
-                        keyExtractor={(item) => item.id.toString()}
-                        numColumns={2}
-                        columnWrapperStyle={{ justifyContent: 'space-between' }}
-                        data={castAndcrew.cast}
-                        renderItem={({ item }) => {
-                            return (
-                                <View style={styles.actor}>
-                                    <Image
-                                        source={{
-                                            uri: "https://www.themoviedb.org/t/p/w300_and_h450_bestv2"
-                                                + item.profile_path
-                                        }}
-                                        style={styles.actorImage}
-                                    />
+                {castAndcrew.cast ?
+                    <View style={styles.cast}>
+                        <FlatList
+                            ListHeaderComponent={
+                                <Text style={styles.view_all_name}>
+                                    Cast {castAndcrew.cast && castAndcrew.cast.length}
+                                </Text>
+                            }
+                            keyExtractor={(item) => item.id.toString()}
+                            numColumns={2}
+                            columnWrapperStyle={{ justifyContent: 'space-between' }}
+                            data={castAndcrew.cast && castAndcrew.cast}
+                            renderItem={({ item }) => {
+                                return (
+                                    <View style={styles.actor}>
+                                        <Image
+                                            source={{
+                                                uri: "https://www.themoviedb.org/t/p/w300_and_h450_bestv2"
+                                                    + item.profile_path
+                                            }}
+                                            style={styles.actorImage}
+                                        />
 
-                                    <View style={styles.actor_des}>
-                                        <Text style={styles.name}>{item.name}</Text>
-                                        <Text style={styles.charector}>{item.character}</Text>
+                                        <View style={styles.actor_des}>
+                                            <TouchableOpacity
+                                                activeOpacity={.7}
+                                                onPress={() => {
+                                                    props.navigation && props.navigation.push('PersonScreen', {
+                                                        person_id: item.id
+                                                    })
+                                                }}
+                                            >
+                                                <Text style={styles.name}>{item.name}</Text>
+                                            </TouchableOpacity>
+                                            <Text style={styles.charector}>{item.character}</Text>
+                                        </View>
                                     </View>
-                                </View>
-                            )
-                        }}
-                    />
-                </View>
+                                )
+                            }}
+                        />
+                    </View>:
+                    <View></View>
+                }
 
                 <View style={[styles.cast, styles.crew]}>
                     <FlatList
@@ -66,7 +78,16 @@ export default function FullCast(props) {
                                     />
 
                                     <View style={styles.actor_des}>
-                                        <Text style={styles.name}>{item.name}</Text>
+                                        <TouchableOpacity
+                                            activeOpacity={.7}
+                                            onPress={() => {
+                                                props.navigation && props.navigation.push('PersonScreen', {
+                                                    person_id: item.id
+                                                })
+                                            }}
+                                        >
+                                            <Text style={styles.name}>{item.name}</Text>
+                                        </TouchableOpacity>
                                         <Text style={styles.charector}>{item.job}</Text>
                                     </View>
                                 </View>
@@ -87,7 +108,8 @@ const styles = StyleSheet.create({
         flex: 1,
         color: "#fff",
         paddingHorizontal: 17,
-        paddingVertical: 10
+        paddingVertical: 10,
+        height: "100%"
     },
     cast: {
 

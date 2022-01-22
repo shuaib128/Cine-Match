@@ -108,6 +108,7 @@ export default function MovieDetail(props) {
                         <Descridtions
                             CastAndCrew={CastAndCrew}
                             Movie={Movie}
+                            navigation={props.navigation}
                         /> :
                         <DescriptionSkeleton />
                     }
@@ -139,6 +140,7 @@ export default function MovieDetail(props) {
                     {Movie ?
                         <Sesons
                             Movie={Movie}
+                            navigation={props.navigation}
                         />:
                         <View></View>
                     }
@@ -153,11 +155,12 @@ export default function MovieDetail(props) {
                     {SimmilerMove ?
                         <SimillerMovies
                             title="Similar"
-                            query="top_rated"
+                            query="similar"
                             movie_tv="movie"
                             TopRatedMovie={SimmilerMove}
                             navigation={props.navigation}
                             screen_name={movieOrTV}
+                            movieID={movie_id}
                         /> :
                         <CastSkeleton />
                     }
@@ -165,11 +168,12 @@ export default function MovieDetail(props) {
                     {RecomendedMovie ?
                         <SimillerMovies
                             title="Recommendation"
-                            query="top_rated"
+                            query="recommendations"
                             movie_tv="movie"
                             TopRatedMovie={RecomendedMovie}
                             navigation={props.navigation}
                             screen_name={movieOrTV}
+                            movieID={movie_id}
                         /> :
                         <CastSkeleton />
                     }

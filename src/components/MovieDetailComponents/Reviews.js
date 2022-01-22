@@ -1,7 +1,8 @@
 import React from 'react'
 import {
     View, Text, StyleSheet,
-    FlatList, Image, Dimensions, TouchableOpacity
+    FlatList, Image, Dimensions, TouchableOpacity,
+    Linking
 } from 'react-native'
 import { mainFontColor, secondFontColor, thirdFontColor } from '../../utilities/GlobalStyles'
 
@@ -48,8 +49,13 @@ export default function Reviews(props) {
 
                                     <Text style={styles.review_content}>
                                         {item.content.slice(0, 300)}...
-                                        <Text style={{ color: secondFontColor, borderBottomColor: secondFontColor, fontWeight: '700' }}>  Load More</Text>
                                     </Text>
+                                    <TouchableOpacity
+                                        activeOpacity={.7}
+                                        onPress={() => Linking.openURL(item.url)}
+                                    >
+                                        <Text style={{ color: secondFontColor, borderBottomColor: secondFontColor, fontWeight: '700' }}>  Load More</Text>
+                                    </TouchableOpacity>
                                 </View>
                             )
                         }}
