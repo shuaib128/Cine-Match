@@ -46,6 +46,9 @@ export default function UpNav(props) {
 
             <TouchableOpacity
                 activeOpacity={.7}
+                onPress={() => {
+                    props.navigation && props.navigation.navigate('WatchListScreen')
+                }}
             >
                 <Text style={[styles.list_text, styles.list_text_mylist]}>
                     My List

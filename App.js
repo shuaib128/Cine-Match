@@ -16,6 +16,7 @@ import PersonScreen from './src/screens/PersonScreen';
 import SeasonDetail from './src/screens/SeasonDetail';
 import EpisodeDetail from './src/screens/EpisodeDetail';
 import SearchScreen from './src/screens/SearchScreen';
+import WatchListScreen from './src/screens/WatchListScreen'
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -37,6 +38,7 @@ const App = () => {
           <Stack.Screen name="SeasonDetail" component={SeasonDetail} />
           <Stack.Screen name="EpisodeDetail" component={EpisodeDetail} />
           <Stack.Screen name="SearchScreen" component={SearchScreen} />
+          <Stack.Screen name="WatchListScreen" component={WatchListScreen} />
         </Stack.Navigator>
       </NavigationContainer>
 

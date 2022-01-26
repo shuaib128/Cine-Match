@@ -108,6 +108,7 @@ export default function MovieDetail(props) {
                         <Descridtions
                             CastAndCrew={CastAndCrew}
                             Movie={Movie}
+                            movieOrTV={movieOrTV}
                             navigation={props.navigation}
                         /> :
                         <DescriptionSkeleton />

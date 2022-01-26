@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     View, Text, StyleSheet, TouchableOpacity,
     Linking
@@ -7,7 +7,9 @@ import Ionicons from "react-native-vector-icons/Ionicons"
 import { mainFontColor, secondFontColor, thirdFontColor } from '../../utilities/GlobalStyles'
 import ExtraInfoBlock from './ExtraInfoBlock'
 import TvseresCreatorsName from './TvDetails/TvseresCreatorsName'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+//Convert time to h/m/s from s
 function timeConvert(n) {
     var num = n;
     var hours = (num / 60);
@@ -21,8 +23,109 @@ function timeConvert(n) {
     }
 }
 
+
 export default function Descridtions(props) {
+    const [MovieWishListID, setMovieWishListID] = useState();
+    const [TVWishListID, setTVWishListID] = useState();
     const crew = props.CastAndCrew.crew
+
+    //Set Movie ids at render
+    useEffect(() => {
+        // AsyncStorage.getItem('TvWatchlist')
+        //     .then((item) => {
+        //         const wishlist = item ? JSON.parse(item) : []
+        //         console.log(wishlist);
+        //     })
+
+        // AsyncStorage.getItem('MovieWatchlistID')
+        //     .then((item) => {
+        //         const wishlist = item ? JSON.parse(item) : []
+        //         console.log(wishlist);
+        //     })
+
+        loaded()
+    }, [])
+
+    //Load saved movies and ids
+    const loaded = async () => {
+        try {
+            let MovieWatchListID = await AsyncStorage.getItem("MovieWatchlistID")
+            let TvWatchlistID = await AsyncStorage.getItem("TvWatchlistID")
+
+            if (MovieWatchListID !== null) {
+                setMovieWishListID(MovieWatchListID)
+            }
+
+            if (TvWatchlistID !== null) {
+                setTVWishListID(TvWatchlistID)
+            }
+        } catch (error) {
+
+        }
+    }
+
+    //Saving function
+    const save = async () => {
+        try {
+            if (props.movieOrTV === "HomeScreen") {
+                AsyncStorage.getItem("MovieWatchlist")
+                    .then((item) => {
+                        const wishlist = item ? JSON.parse(item) : []
+                        wishlist.push(props.Movie)
+                        AsyncStorage.setItem("MovieWatchlist", JSON.stringify(wishlist))
+                    })
+            }
+            else if (props.movieOrTV === "TVSeresScreen") {
+                AsyncStorage.getItem("TvWatchlist")
+                    .then((item) => {
+                        const wishlist = item ? JSON.parse(item) : []
+                        wishlist.push(props.Movie)
+                        AsyncStorage.setItem("TvWatchlist", JSON.stringify(wishlist))
+                    })
+            }
+        } catch (error) {
+
+        }
+    }
+
+    //Save id function
+    const saveID = async () => {
+        try {
+            if (props.movieOrTV === "HomeScreen") {
+                AsyncStorage.getItem("MovieWatchlistID")
+                    .then((item) => {
+                        const movieWatchlistID = item ? JSON.parse(item) : []
+                        movieWatchlistID.push(props.Movie.id)
+                        setMovieWishListID(movieWatchlistID)
+                        AsyncStorage.setItem("MovieWatchlistID", JSON.stringify(movieWatchlistID))
+                    })
+            }
+            else if (props.movieOrTV === "TVSeresScreen") {
+                AsyncStorage.getItem("TvWatchlistID")
+                    .then((item) => {
+                        const movieWatchlistID = item ? JSON.parse(item) : []
+                        movieWatchlistID.push(props.Movie.id)
+                        setTVWishListID(movieWatchlistID)
+                        AsyncStorage.setItem("TvWatchlistID", JSON.stringify(movieWatchlistID))
+                    })
+            }
+        } catch (error) {
+
+        }
+    }
+
+    //handle saving id to asyicstorage
+    const watchlistAddHandler = () => {
+        save()
+        saveID()
+    }
+
+    const watchlistRemoveHandler = () => {
+        save()
+        saveID()
+    }
+    // console.log(MovieWishListID);
+    // console.log(TVWishListID);
 
     return (
         <View style={styles.container}>
@@ -48,16 +151,30 @@ export default function Descridtions(props) {
                 </View>
 
                 <View style={styles.add_message}>
-                    <TouchableOpacity
-                        activeOpacity={.7}
-                    >
-                        <Ionicons
-                            style={styles.searchIcon}
-                            name="add-circle-outline"
-                            size={23}
-                            color={mainFontColor}
-                        />
-                    </TouchableOpacity>
+                    {MovieWishListID && MovieWishListID.includes(props.Movie.id) || TVWishListID && TVWishListID.includes(props.Movie.id) ?
+                        <TouchableOpacity
+                            activeOpacity={.7}
+                            onPress={watchlistRemoveHandler}
+                        >
+                            <Ionicons
+                                style={styles.searchIcon}
+                                name="trash-outline"
+                                size={23}
+                                color={mainFontColor}
+                            />
+                        </TouchableOpacity> :
+                        <TouchableOpacity
+                            activeOpacity={.7}
+                            onPress={watchlistAddHandler}
+                        >
+                            <Ionicons
+                                style={styles.searchIcon}
+                                name="add-circle-outline"
+                                size={23}
+                                color={mainFontColor}
+                            />
+                        </TouchableOpacity>
+                    }
 
                     <TouchableOpacity
                         activeOpacity={.7}
@@ -143,7 +260,7 @@ export default function Descridtions(props) {
                     /> :
                     <View></View>
                 }
-                
+
                 {props.Movie.revenue !== 0 && props.Movie.revenue !== undefined ?
                     <ExtraInfoBlock
                         kei="Revenue"
