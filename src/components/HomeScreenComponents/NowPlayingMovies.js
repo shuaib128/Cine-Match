@@ -39,7 +39,7 @@ export default function NowPlayingMovies(props) {
 
                             <Image
                                 source={{
-                                    uri: "https://www.themoviedb.org/t/p/w300_and_h450_bestv2"
+                                    uri: "https://www.themoviedb.org/t/p/w355_and_h200_multi_faces"
                                         + item.poster_path
                                 }}
                                 style={styles.movieImage}
@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
     },
     movieImage: {
         width: width - 40,
-        height: 200,
-        borderRadius: 10,
+        height: 210,
+        borderRadius: 3,
         resizeMode: "cover",
     },
     original_title: {
