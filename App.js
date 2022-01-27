@@ -9,7 +9,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './src/screens/HomeScreen';
 import TVSeresScreen from './src/screens/TVSeresScreen';
 import ViewAll from './src/screens/ViewAll';
-import ViewAllCategory from './src/screens/ViewAllCategory'
+import ViewAllCategory from './src/screens/ViewAllCategory';
 import MovieDetail from './src/screens/MovieDetail';
 import FullCast from './src/screens/FullCast';
 import PersonScreen from './src/screens/PersonScreen';

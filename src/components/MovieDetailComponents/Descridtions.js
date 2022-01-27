@@ -31,18 +31,6 @@ export default function Descridtions(props) {
 
     //Set Movie ids at render
     useEffect(() => {
-        // AsyncStorage.getItem('TvWatchlist')
-        //     .then((item) => {
-        //         const wishlist = item ? JSON.parse(item) : []
-        //         console.log(wishlist);
-        //     })
-
-        // AsyncStorage.getItem('MovieWatchlistID')
-        //     .then((item) => {
-        //         const wishlist = item ? JSON.parse(item) : []
-        //         console.log(wishlist);
-        //     })
-
         loaded()
     }, [])
 
@@ -114,6 +102,47 @@ export default function Descridtions(props) {
         }
     }
 
+    //Remove function
+    const remove = async () => {
+        try {
+            if (props.movieOrTV === "HomeScreen") {
+                let watchLists = await AsyncStorage.getItem("MovieWatchlist")
+                watchLists = JSON.parse(watchLists)
+                AsyncStorage.getItem("MovieWatchlistID")
+                    .then((item) => {
+                        const wishlist = item ? JSON.parse(item) : []
+
+                        if (wishlist.indexOf(props.Movie.id) !== -1) {
+                            watchLists.splice(wishlist.indexOf(props.Movie.id), 1)
+                            wishlist.splice(wishlist.indexOf(props.Movie.id), 1)
+                        }
+                        setMovieWishListID(wishlist)
+                        AsyncStorage.setItem('MovieWatchlistID', JSON.stringify(wishlist))
+                        AsyncStorage.setItem('MovieWatchlist', JSON.stringify(watchLists))
+                    })
+            }
+
+            else if (props.movieOrTV === "TVSeresScreen") {
+                let watchLists = await AsyncStorage.getItem("TvWatchlist")
+                watchLists = JSON.parse(watchLists)
+                AsyncStorage.getItem("TvWatchlistID")
+                    .then((item) => {
+                        const wishlist = item ? JSON.parse(item) : []
+
+                        if (wishlist.indexOf(props.Movie.id) !== -1) {
+                            watchLists.splice(wishlist.indexOf(props.Movie.id), 1)
+                            wishlist.splice(wishlist.indexOf(props.Movie.id), 1)
+                        }
+                        setTVWishListID(wishlist)
+                        AsyncStorage.setItem('TvWatchlistID', JSON.stringify(wishlist))
+                        AsyncStorage.setItem('TvWatchlist', JSON.stringify(watchLists))
+                    })
+            }
+        } catch (error) {
+
+        }
+    }
+
     //handle saving id to asyicstorage
     const watchlistAddHandler = () => {
         save()
@@ -121,8 +150,7 @@ export default function Descridtions(props) {
     }
 
     const watchlistRemoveHandler = () => {
-        save()
-        saveID()
+        remove()
     }
     // console.log(MovieWishListID);
     // console.log(TVWishListID);

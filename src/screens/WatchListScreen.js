@@ -47,7 +47,9 @@ export default function WatchListScreen(props) {
                 {AllMovie ?
                     <View>
                         <FlatList
-                            ListHeaderComponent={() => <MovieTitle />}
+                            ListHeaderComponent={() => 
+                                AllMovie.length !== 0 ? <MovieTitle /> : <View></View>
+                            }
                             numColumns={2}
                             columnWrapperStyle={{ justifyContent: 'space-between' }}
                             keyExtractor={(item, index) => index.toString()}
@@ -99,13 +101,15 @@ export default function WatchListScreen(props) {
                             }}
                         />
                     </View> :
-                    <Text>Loading..</Text>
+                    <ViewAllSkeleton />
                 }
 
                 {AllMovie ?
                     <View style={{ marginTop: 30 }}>
                         <FlatList
-                            ListHeaderComponent={() => <TVTitle />}
+                            ListHeaderComponent={() => 
+                                AllMovie.length !== 0 ? <TVTitle /> : <View></View>
+                            }
                             numColumns={2}
                             columnWrapperStyle={{ justifyContent: 'space-between' }}
                             keyExtractor={(item, index) => index.toString()}
@@ -157,7 +161,7 @@ export default function WatchListScreen(props) {
                             }}
                         />
                     </View> :
-                    <Text>Loading..</Text>
+                    <ViewAllSkeleton />
                 }
             </ScrollView>
         </View>
