@@ -142,7 +142,7 @@ export default function MovieDetail(props) {
                         <Sesons
                             Movie={Movie}
                             navigation={props.navigation}
-                        />:
+                        /> :
                         <View></View>
                     }
 

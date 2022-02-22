@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     },
     movieImage: {
         width: width - 40,
-        height: 210,
+        height: 250,
         borderRadius: 3,
         resizeMode: "cover",
     },

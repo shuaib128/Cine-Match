@@ -44,7 +44,7 @@ export default function SimillerMovies(props) {
                         showsHorizontalScrollIndicator={false}
                         snapToInterval={width / 2.9}
                         decelerationRate="fast"
-                        data={props.TopRatedMovie}
+                        data={props.TopRatedMovie.reverse()}
                         renderItem={({ item, index }) => {
                             return (
                                 <TouchableOpacity
@@ -88,7 +88,9 @@ export default function SimillerMovies(props) {
                                                 size={13}
                                                 color={secondFontColor}
                                             />
-                                            <Text style={styles.vote_average}>{item.vote_average}</Text>
+                                            <Text style={styles.vote_average}>
+                                                {Math.round(item.vote_average * 10) / 10}
+                                            </Text>
                                         </View>
                                     </View>
                                 </TouchableOpacity>

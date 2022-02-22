@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { mainFontColor, secondFontColor, thirdFontColor } from '../../utilities/GlobalStyles'
+import { secondFontColor, thirdFontColor } from '../../utilities/GlobalStyles'
 
 export default function ExtraInfoBlock(props) {
     return (

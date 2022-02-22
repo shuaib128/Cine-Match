@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {
     View, Text, StyleSheet, TouchableOpacity,
-    Linking
+    Linking, Share
 } from 'react-native'
 import Ionicons from "react-native-vector-icons/Ionicons"
 import { mainFontColor, secondFontColor, thirdFontColor } from '../../utilities/GlobalStyles'
@@ -20,6 +20,17 @@ function timeConvert(n) {
         return rhours + "h " + rminutes + "m";
     } else {
         return rminutes + "m";
+    }
+}
+
+//Convert number to currency (Thougent, Million, Billion)
+function numFormatter(num) {
+    if (num > 999 && num < 1000000) {
+        return (num / 1000).toFixed(1) + 'K';
+    } else if (num > 1000000) {
+        return (num / 1000000).toFixed(1) + 'M';
+    } else if (num < 900) {
+        return num;
     }
 }
 
@@ -152,8 +163,26 @@ export default function Descridtions(props) {
     const watchlistRemoveHandler = () => {
         remove()
     }
-    // console.log(MovieWishListID);
-    // console.log(TVWishListID);
+
+    //Share handler
+    const onShare = async (movie_url) => {
+        try {
+            const result = await Share.share({
+                message: movie_url
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -212,6 +241,7 @@ export default function Descridtions(props) {
                             name="paper-plane-outline"
                             size={23}
                             color={mainFontColor}
+                            onPress={() => onShare(props.Movie.homepage)}
                         />
                     </TouchableOpacity>
                 </View>
@@ -284,7 +314,7 @@ export default function Descridtions(props) {
                     <ExtraInfoBlock
                         kei="Buget"
                         link={false}
-                        value={`$${props.Movie.budget}`}
+                        value={`$${numFormatter(props.Movie.budget)}`}
                     /> :
                     <View></View>
                 }
@@ -293,7 +323,7 @@ export default function Descridtions(props) {
                     <ExtraInfoBlock
                         kei="Revenue"
                         link={false}
-                        value={`$${props.Movie.revenue}`}
+                        value={`$${numFormatter(props.Movie.revenue)}`}
                     /> :
                     <View></View>
                 }

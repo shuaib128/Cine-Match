@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     },
     movie_images: {
         width: width,
-        height: height / 2
+        height: height / 1.9
     },
     cat_blockt: {
         position: 'absolute',

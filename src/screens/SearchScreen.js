@@ -3,7 +3,7 @@ import {
     View, Text, StyleSheet, TextInput, Image,
     useWindowDimensions
 } from 'react-native';
-import { mainFontColor, secondFontColor, thirdFontColor, forthFontColor } from "../utilities/GlobalStyles"
+import { secondFontColor, thirdFontColor, forthFontColor } from "../utilities/GlobalStyles"
 import Ionicons from "react-native-vector-icons/Ionicons";
 import SearchResults from '../components/SearchPageComponents/SearchResults';
 import SearchTv from '../components/SearchPageComponents/SearchTv';
@@ -54,8 +54,6 @@ export default function SearchScreen(props) {
 
     useEffect(() => {
         //Get movies
-        var CancelToken = axios.CancelToken;
-        var cancel;
         if (query !== "") {
             axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${ApiKey}&language=en-US&page=1&include_adult=true&query=${query}`)
                 .then((res) => {

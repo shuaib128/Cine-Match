@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import {
     View, Text, StyleSheet,
     FlatList, TouchableOpacity, Image,
-    Dimensions,
-    ScrollView
+    Dimensions, ScrollView, RefreshControl
 } from 'react-native'
 import Ionicons from "react-native-vector-icons/Ionicons"
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,6 +11,9 @@ import ViewAllSkeleton from '../utilities/ViewAllSkeleton'
 
 const { width, height } = Dimensions.get("screen")
 export default function WatchListScreen(props) {
+    const [Refreshing, setRefreshing] = useState(false)
+
+    //Get all movies from cash
     const [AllMovie, setAllMovie] = useState(() => {
         AsyncStorage.getItem('MovieWatchlist')
             .then((item) => {
@@ -20,6 +22,7 @@ export default function WatchListScreen(props) {
             })
     });
 
+    //Get all seres from cash
     const [AllTV, setAllTV] = useState(() => {
         AsyncStorage.getItem('TvWatchlist')
             .then((item) => {
@@ -28,26 +31,51 @@ export default function WatchListScreen(props) {
             })
     });
 
-
+    //Movie title and tv titles
     const MovieTitle = () => {
         return (
             <Text style={styles.view_all_name}>Movies To Watch</Text>
         )
     }
-
     const TVTitle = () => {
         return (
             <Text style={styles.view_all_name}>Series To Watch</Text>
         )
     }
 
+    //Refresh watchlist
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+
+        AsyncStorage.getItem('TvWatchlist')
+            .then((item) => {
+                const wishlist = item ? JSON.parse(item) : []
+                setAllTV(wishlist);
+            })
+
+        AsyncStorage.getItem('MovieWatchlist')
+            .then((item) => {
+                const wishlist = item ? JSON.parse(item) : []
+                setAllMovie(wishlist);
+            })
+
+        setRefreshing(false)
+    }, []);
+
     return (
         <View style={styles.container}>
-            <ScrollView>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={Refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+            >
                 {AllMovie ?
                     <View>
                         <FlatList
-                            ListHeaderComponent={() => 
+                            ListHeaderComponent={() =>
                                 AllMovie.length !== 0 ? <MovieTitle /> : <View></View>
                             }
                             numColumns={2}
@@ -107,7 +135,7 @@ export default function WatchListScreen(props) {
                 {AllMovie ?
                     <View style={{ marginTop: 30 }}>
                         <FlatList
-                            ListHeaderComponent={() => 
+                            ListHeaderComponent={() =>
                                 AllMovie.length !== 0 ? <TVTitle /> : <View></View>
                             }
                             numColumns={2}
