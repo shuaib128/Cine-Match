@@ -57,7 +57,7 @@ export default function MovieDetail(props) {
     const [Backdrops, setBackdrops] = useState(() => {
         axios.get(`
             https://api.themoviedb.org/3/${movieOrTV === "HomeScreen" ? "movie" : "tv"}/
-            ${movie_id}/images?api_key=a7763028e85029af229da16b6a38b9c5
+            ${movie_id}/images?api_key=${ApiKey}
         `)
             .then((res) => {
                 setBackdrops(res.data);
@@ -67,7 +67,7 @@ export default function MovieDetail(props) {
     const [Videos_, setVideos_] = useState(() => {
         axios.get(`
             https://api.themoviedb.org/3/${movieOrTV === "HomeScreen" ? "movie" : "tv"}/
-            ${movie_id}/videos?api_key=a7763028e85029af229da16b6a38b9c5&language=en-US
+            ${movie_id}/videos?api_key=${ApiKey}&language=en-US
         `)
             .then((res) => {
                 setVideos_(res.data);
@@ -77,7 +77,7 @@ export default function MovieDetail(props) {
     const [SimmilerMove, setSimmilerMove] = useState(() => {
         axios.get(`
             https://api.themoviedb.org/3/${movieOrTV === "HomeScreen" ? "movie" : "tv"}/
-            ${movie_id}/similar?api_key=a7763028e85029af229da16b6a38b9c5&language=en-US
+            ${movie_id}/similar?api_key=${ApiKey}&language=en-US
         `)
             .then((res) => {
                 setSimmilerMove(res.data.results);
@@ -87,7 +87,7 @@ export default function MovieDetail(props) {
     const [RecomendedMovie, setRecomendedMovie] = useState(() => {
         axios.get(`
             https://api.themoviedb.org/3/${movieOrTV === "HomeScreen" ? "movie" : "tv"}/
-            ${movie_id}/recommendations?api_key=a7763028e85029af229da16b6a38b9c5&language=en-US
+            ${movie_id}/recommendations?api_key=${ApiKey}&language=en-US
         `)
             .then((res) => {
                 setRecomendedMovie(res.data.results);
